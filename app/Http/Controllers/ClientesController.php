@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\ClientesInterface;
 use App\Http\Requests\ClientesRequest;
-use App\Repositories\ClientesRepository;
 use Illuminate\Http\Request;
 
 class ClientesController extends Controller
 {
 
-    public function __construct(public ClientesRepository $clientes_repository) {
+    public function __construct(public ClientesInterface $clientes_repository) {
     }
 
     /**

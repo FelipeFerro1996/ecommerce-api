@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
+use App\ClientesInterface;
 use App\Models\Clientes;
 
-class ClientesRepository 
+class ClientesRepository implements ClientesInterface
 {
 
     public function getAllClientes(){
