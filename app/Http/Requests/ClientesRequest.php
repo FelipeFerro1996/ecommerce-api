@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClientesRequest extends FormRequest
 {
@@ -21,9 +22,14 @@ class ClientesRequest extends FormRequest
      */
     public function rules(): array
     {
+        $clienteId = $this->route('cliente'); 
         return [
             'nome' => 'required|min:2',
-            'email' => 'required|email|unique:clientes|',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('clientes')->ignore($clienteId),
+            ],
             'data_nascimento'=>'required|date',
             'celular' => 'required|min:1|max:11'
         ];

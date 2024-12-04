@@ -18,7 +18,7 @@ class ClientesController extends Controller
     public function index()
     {
         $clientes = $this->clientes_repository->getAllClientes();
-        return response()->json([$clientes], 200);
+        return $clientes;
     }
 
     /**
@@ -28,7 +28,10 @@ class ClientesController extends Controller
     {
         $cliente = $this->clientes_repository->insertCliente(request:$request);
 
-        return response()->json([$cliente], 203);
+        return response()->json([
+            'message'=>'Cliente incluído com sucesso',
+            'data'=>$cliente
+        ], 203);
     }
 
     /**
@@ -36,15 +39,29 @@ class ClientesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $cliente = $this->clientes_repository->getClienteById($id);
+
+        if(empty($cliente->id)){
+            return response()->json([
+                'message'=>'Cliente não encontrado'
+            ], 404);
+        }
+
+        return $cliente;
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ClientesRequest $request, string $id)
     {
-        //
+        $cliente = $this->clientes_repository->updateCliente(request:$request, id:$id);
+
+        return response()->json([
+            'message'=>'Cliente atualizado com sucesso',
+            'data'=>$cliente
+        ]);
     }
 
     /**
@@ -52,6 +69,12 @@ class ClientesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $return = $this->clientes_repository->deleteCliente(id:$id);
+
+        if(!$return['sucesso']){
+            return response()->json($return, 404);
+        }
+
+        return response()->json($return, 200);
     }
 }
