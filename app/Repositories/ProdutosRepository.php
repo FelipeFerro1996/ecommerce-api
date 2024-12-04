@@ -65,6 +65,10 @@ class ProdutosRepository implements ProdutosInterface {
 
             $produto = Produtos::find($id);
 
+            if(!empty($produto->categorias)){
+                $produto->categorias()->detach();
+            }
+
             if(empty($produto->id)){
                 throw new Exception('Produto não existe');
             }
