@@ -15,11 +15,11 @@ class CategoriasProdutosSeeders extends Seeder
     public function run(): void
     {
         DB::table('categorias')->insert([
-            ['descricao' => Str::random(1).'Categoria'],
-            ['descricao' => Str::random(1).'Categoria'],
-            ['descricao' => Str::random(1).'Categoria'],
-            ['descricao' => Str::random(1).'Categoria'],
-            ['descricao' => Str::random(1).'Categoria']
+            ['descricao' => 'Categoria_1'],
+            ['descricao' => 'Categoria_2'],
+            ['descricao' => 'Categoria_3'],
+            ['descricao' => 'Categoria_4'],
+            ['descricao' => 'Categoria_5']
         ]);
         
     }

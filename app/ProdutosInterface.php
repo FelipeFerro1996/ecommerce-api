@@ -6,7 +6,7 @@ use App\Models\Produtos;
 
 interface ProdutosInterface
 {
-    public function getAllProdutos();
+    public function getAllProdutos($request);
 
     public function insertProduto($request = NULL): Produtos;
 

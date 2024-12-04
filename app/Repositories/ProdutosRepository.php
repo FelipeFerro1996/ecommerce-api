@@ -9,8 +9,24 @@ use Exception;
 
 class ProdutosRepository implements ProdutosInterface {
 
-    public function getAllProdutos(){
-        $produtos = Produtos::with('categorias')->paginate(10);
+    public function getAllProdutos($request = NULL){
+        $produtos = new Produtos();
+
+        if(!empty($request->categorias)){
+            $produtos = $produtos->wherehas('categorias', function($query) use ($request){
+                $query->where('descricao', 'LIKE', '%'.$request->categorias.'%');
+            });
+        }
+
+        if(!empty($request->preco_inicial)){
+            $produtos = $produtos->where('preco', '>=', $request->preco_inicial);
+        }
+
+        if(!empty($request->preco_final)){
+            $produtos = $produtos->where('preco', '<=', $request->preco_final);
+        }
+
+        $produtos = $produtos->with('categorias')->paginate(10);
         return $produtos;
     }
 
@@ -50,7 +66,7 @@ class ProdutosRepository implements ProdutosInterface {
             $produto = Produtos::find($id);
 
             if(empty($produto->id)){
-                throw new Exception('Usuário não existe');
+                throw new Exception('Produto não existe');
             }
 
             $return['sucesso'] = $produto->delete();

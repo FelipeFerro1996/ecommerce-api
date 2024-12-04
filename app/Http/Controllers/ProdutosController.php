@@ -14,9 +14,9 @@ class ProdutosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $produtos = $this->produtos_repository->getAllProdutos();
+        $produtos = $this->produtos_repository->getAllProdutos(request:$request);
         return $produtos;
     }
 
