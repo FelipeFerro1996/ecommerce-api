@@ -8,5 +8,5 @@ class CategoriasProdutos extends Model
 {
     protected $table = 'categorias_produtos';
     
-    protected $fillable = ['cliente_id', 'categoria_id'];
+    protected $fillable = ['produto_id', 'categoria_id'];
 }

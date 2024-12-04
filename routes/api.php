@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\ProdutosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +10,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('clientes', ClientesController::class);
+Route::apiResource('produtos', ProdutosController::class);
