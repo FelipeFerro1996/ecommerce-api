@@ -15,4 +15,6 @@ interface PedidosInterface
     public function getPedidobyId($id = NULL);
 
     public function deletePedido($id = NULL);
+
+    public function updateStatus($id = NULL, $status = NULL);
 }

@@ -13,3 +13,5 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('clientes', ClientesController::class);
 Route::apiResource('produtos', ProdutosController::class);
 Route::apiResource('pedidos', PedidosController::class);
+
+Route::patch('pedidos/{pedido}/status', [PedidosController::class, 'updateStatus']);

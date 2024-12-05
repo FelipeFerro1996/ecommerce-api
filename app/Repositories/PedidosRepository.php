@@ -60,6 +60,10 @@ class PedidosRepository implements PedidosInterface
                 throw new Exception('Pedido não existe');
             }
 
+            if(!empty($pedido->pedidosProdutos)){
+                $pedido->pedidosProdutos()->delete();
+            }
+
             $return['sucesso'] = $pedido->delete();
 
         }catch(Exception $e){
@@ -67,6 +71,14 @@ class PedidosRepository implements PedidosInterface
         }
 
         return $return;
+    }
+
+    public function updateStatus($id = NULL, $status = NULL){
+
+        $pedido = Pedidos::find($id);
+        $pedido->status = $status;
+        $pedido->save();
+        return $pedido;
     }
 
 }

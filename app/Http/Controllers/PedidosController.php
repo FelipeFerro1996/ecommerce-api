@@ -38,7 +38,15 @@ class PedidosController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pedido = $this->pedidos_repository->getPedidobyId(id:$id);
+
+        if(empty($pedido->id)){
+            return response()->json([
+                'message'=>'Pedido não encontrado'
+            ], 404);
+        }
+
+        return $pedido;
     }
 
     /**
@@ -54,6 +62,21 @@ class PedidosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $return = $this->pedidos_repository->deletePedido(id:$id);
+
+        if(!$return['sucesso']){
+            return response()->json($return, 404);
+        }
+
+        return response()->json($return, 200);
+    }
+
+    public function updateStatus($id, Request $request){
+        $pedido = $this->pedidos_repository->updateStatus(id:$id, status:$request->status);
+
+        return response()->json([
+            'message'=>'Alterado status pedido',
+            'data'=>$pedido
+        ]);
     }
 }
