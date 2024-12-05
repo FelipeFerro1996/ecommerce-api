@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PedidosRequest;
+use App\Http\Requests\UpdateStatusPedidoRequest;
 use App\PedidosInterface;
 use Illuminate\Http\Request;
 
@@ -71,12 +72,16 @@ class PedidosController extends Controller
         return response()->json($return, 200);
     }
 
-    public function updateStatus($id, Request $request){
-        $pedido = $this->pedidos_repository->updateStatus(id:$id, status:$request->status);
+    public function updateStatus($id, UpdateStatusPedidoRequest $request){
+        $return = $this->pedidos_repository->updateStatus(id:$id, status:$request->status);
+
+        if(!$return['sucesso']){
+            return response()->json($return, 404);
+        }
 
         return response()->json([
-            'message'=>'Alterado status pedido',
-            'data'=>$pedido
+            'message'=>$return['message'],
+            'data'=>$return['pedido']
         ]);
     }
 }

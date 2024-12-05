@@ -11,7 +11,7 @@ class PedidosRepository implements PedidosInterface
 {
 
     public function getAllPedidos(){
-        $pedidos = Pedidos::with('pedidosProdutos')->paginate(10);
+        $pedidos = Pedidos::with('pedidosProdutos')->with('pagamento')->paginate(10);
         return $pedidos;
     }
 
@@ -31,7 +31,7 @@ class PedidosRepository implements PedidosInterface
             ]);
         }
 
-        return Pedidos::with('pedidosProdutos')->find($pedido->id);
+        return Pedidos::with('pedidosProdutos')->with('pagamento')->find($pedido->id);
     }
 
     public function updatePedido($request = NULL, $id = NULL): Pedidos{
@@ -42,7 +42,7 @@ class PedidosRepository implements PedidosInterface
     }
 
     public function getPedidobyId($id = NULL){
-        $pedido = Pedidos::find($id);
+        $pedido = Pedidos::with('pedidosProdutos')->with('pagamento')->find($id);
         return $pedido;
     }
 
@@ -75,10 +75,33 @@ class PedidosRepository implements PedidosInterface
 
     public function updateStatus($id = NULL, $status = NULL){
 
-        $pedido = Pedidos::find($id);
-        $pedido->status = $status;
-        $pedido->save();
-        return $pedido;
+        $return = [
+            'message'=>'Alterado status do pedido para cancelado',
+            'sucesso'=>false
+        ];
+
+        try{
+
+            $pedido = Pedidos::find($id);
+
+            if(empty($pedido->id)){
+                throw new Exception('Pedido não existe');
+            }
+
+            if($pedido->status == 'pago'){
+                throw new Exception('O pedido já está pago');
+            }
+
+            $pedido->status = $status;
+
+            $return['sucesso'] = $pedido->save();;
+            $return['pedido'] = $pedido;
+
+        }catch(Exception $e){
+            $return['message'] = $e->getMessage();
+        }
+
+        return $return;
     }
 
 }

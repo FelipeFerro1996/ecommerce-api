@@ -14,4 +14,8 @@ class Pedidos extends Model
         return $this->hasMany(PedidosProdutos::class, 'pedido_id')->with('produto');
     }
 
+    public function pagamento(){
+        return $this->hasOne(Pagamentos::class, 'pedido_id', 'id');
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\PagamentosController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutosController;
 use Illuminate\Http\Request;
@@ -15,3 +16,5 @@ Route::apiResource('produtos', ProdutosController::class);
 Route::apiResource('pedidos', PedidosController::class);
 
 Route::patch('pedidos/{pedido}/status', [PedidosController::class, 'updateStatus']);
+
+Route::post('pagamentos', [PagamentosController::class, 'store']);
